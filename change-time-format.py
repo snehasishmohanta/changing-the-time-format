@@ -29,5 +29,40 @@ with open("json.txt") as text:
                         do = datetime.datetime.strptime(i,'%Y %d %H:%M:%S')
                         line = line.replace("[%s]"%i, "%s"%(do.strftime("%H:%M:%S ")) )
                         print line
+"""
+if the format look like below then we need to change it little
+I/P:-
+2014-12-17 08:00:00.156 , 3d floor mats for linea , FALSE
+2014-12-17 08:00:00.205 , muscle tech whey 5lbs , TRUE
+2014-12-17 08:00:00.229 , cap , FALSE
+2014-12-17 08:00:00.614 , crawling singing baby , FALSE
+2014-12-17 08:00:01.217 , power bank , FALSE
+2014-12-17 08:00:01.233 , book my show , FALSE
+2014-12-17 08:00:01.336 , pull up bar , TRUE
+2014-12-17 08:00:01.384 , ganoderma , FALSE
+
+O/P:-
+08:00:00 , 3d floor mats for linea , FALSE
+08:00:00. , muscle tech whey 5lbs , TRUE
+08:00:00 , cap , FALSE
+08:00:00 , crawling singing baby , FALSE
+08:00:01 , power bank , FALSE
+08:00:01 , book my show , FALSE
+08:00:01 , pull up bar , TRUE
+08:00:01 , ganoderma , FALSE
+"""
+import re
+import datetime
+
+with open("json.txt") as text:
+        for line in text:
+                
+                date = re.findall("\d+\-+\d+\-+\d+\s+\d+\:+\d+\:+\d+\.+\d+",line)
+                for i in date:
+                        line = line.strip("\n")
+                        do = datetime.datetime.strptime(i,'%Y-%m-%d %H:%M:%S.%f')
+                        line = line.replace("%s"%i, "%s"%(do.strftime("%H:%M:%S ")) )
+                        print line
+
 
 
